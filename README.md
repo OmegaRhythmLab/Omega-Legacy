@@ -6,15 +6,15 @@ This is the project file of Omega Legacy webpage demo
 
 该项目由**MFn233**(github.com/MFn233)维护，原作者是**小煜**和**BallThe**。
 
-This project is maintained by * * MFn233 * * (github. com/MFn233). The original authors are * * Xiao Yu * * and * * BallThe * *.
+This project is maintained by MFn233(github. com/MFn233). The original authors are Xiao Yu and BallThe.
 
 ~~由于写得实在是太稀烂和各种差~~，该项目最终被放弃，游戏转战 Unity 引擎
 
-~~Due to the poor coding~~, the project was finally abandoned and the game switched to Unity engine
+Due to the poor coding, the project was finally abandoned and the game switched to Unity engine
 
 ~~unity 那边的效率很低~~，如果你想看看 Omega 一开始的样子，不妨来这里先看看
 
-~~The efficiency of unity is very low~~.If you want to see what Omega looks like at the beginning, you can come here first
+The efficiency of unity is very low.If you want to see what Omega looks like at the beginning, you can come here first
 
 这个项目最终会出现在 Omega 官方主页上，敬请期待
 
