@@ -16,6 +16,7 @@
 // # v1.0.1 - 对移动端兼容性做了提升
 // # v1.0.2 - 修复了Hold音符miss判定删除其他hold的Bug
 // # v1.0.3 - 选歌切换成为列表选择，新增单曲：Xomu - Lanterns
+// # v1.1.0 - 正式更名Omega Legacy，并且不再在此处更新版本更新公告
 // # ui很差 不喜勿喷
 // # 暂时在html文件运行
 
@@ -44,14 +45,28 @@ function main() {
     audio.load()
         //将gameStart变为true
     gameStart = true
-        //导入文件读取函数(主函数)
+        /* 禁用需要禁用的设置控件 */
     document.getElementById("files").setAttribute("disabled", true);
     document.getElementById("autoplay").setAttribute("disabled", true);
-    /* 禁用需要禁用的设置控件 */
-    imports()
-
     document.getElementById("start").setAttribute("disabled", true);
     document.getElementById("stop").setAttribute("enabled", true);
+    //导入文件读取函数(主函数)
+    imports()
+
+}
+
+/* 为了跳出建议谱面偏移而专门写的函数 */
+function importMsg() {
+    //缓存记录歌曲信息
+    temp = document.getElementById("files").value
+        //noteList记录铺面信息
+    noteList = document.getElementById(temp).innerHTML
+        //记录歌名
+    temp = temp.split(" - ")[0]
+        //定义audio音乐
+    audio = new Audio("../charts/" + temp + "/" + temp + ".mp3")
+        //重置音乐
+    imports()
 }
 //文件读取函数(主函数)
 function imports() {
@@ -73,11 +88,16 @@ function imports() {
             //bpm
             var bpm = parseInt(temp[1])
                 //偏移值
-            var offset = parseInt(temp[2])
-                //音乐时间
+                /* 设置偏移 */
+            var offset = document.getElementById("OffsetOption").value;
+            /* 弹出建议偏移 */
+            var suggestOffset = parseInt(temp[2]);
+            /* 写入 */
+            document.getElementById("SuggestOffset").innerHTML = "<br>建议偏移：" + suggestOffset;
+            //音乐时间
             musicTime = parseInt(temp[3]) * 1000
                 //铺面信息(名称,难度,作曲)
-            var chartdata = { "name": temp[5], "difficult": temp[4], "music": temp[6] }
+            var chartData = { "name": temp[5], "difficult": temp[4], "music": temp[6] }
                 //谱面有用信息添加音乐时间
             useableList.push(musicTime)
                 //将其在音符列表中删除
