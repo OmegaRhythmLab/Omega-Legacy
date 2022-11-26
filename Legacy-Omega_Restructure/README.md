@@ -12,7 +12,7 @@ This project is maintained by MFn233(github. com/MFn233). The original authors a
 
 Due to the poor coding, the project was finally abandoned and the game switched to Unity engine
 
-~~unity 那边的效率很低~~，如果你想看看 Omega 一开始的样子，不妨来这里先看看
+~~unity 那边的效率很低~~如果你想看看 Omega 一开始的样子，不妨来这里先看看
 
 The efficiency of unity is very low.If you want to see what Omega looks like at the beginning, you can come here first
 
