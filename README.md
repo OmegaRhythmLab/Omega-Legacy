@@ -6,7 +6,7 @@ This is the project file of Omega Legacy webpage demo
 
 该项目由**MFn233**(github.com/MFn233)维护，原作者是**小煜**和**BallThe**(github.com/BallThe)。
 
-This project is maintained by MFn233(github.com/MFn233). The original authors are Xiao Yu and BallThe(github.com/BallThe).
+This project is maintained by **MFn233**(github.com/MFn233). The original authors are **Xiao Yu** and **BallThe**(github.com/BallThe).
 
 由2022/11/26**BallThe**加入接管，和**MFn233**一起重构代码。
 
