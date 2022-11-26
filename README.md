@@ -8,14 +8,14 @@ This is the project file of Omega Legacy webpage demo
 
 This project is maintained by MFn233(github.com/MFn233). The original authors are Xiao Yu and BallThe(github.com/BallThe).
 
-由2022/11/26**BallThe**加入接管，和**MFn233**一起重构代码
+由2022/11/26**BallThe**加入接管，和**MFn233**一起重构代码。
 
 From 2022/11/26 **BallThe** join the take-over to restructure the code with **MFn233** together.
 
-MFn233负责ui， BallThe负责重构他之前写的稀烂的代码
+MFn233负责ui， BallThe负责重构他之前写的稀烂的代码。
 
 MFn233 is responsible for ui, and BallThe is responsible for refactoring the rotten code he wrote before.
 
-如果你想看之前**MFn233**写的README，自行查看Legacy-Omega文件夹里的README
+如果你想看之前**MFn233**写的README，自行查看Legacy-Omega文件夹里的README。
 
-If you want to see the README written by **MFn233** before, check the README in the Legacy-Omega folder by yourself
+If you want to see the README written by **MFn233** before, check the README in the Legacy-Omega folder by yourself.
