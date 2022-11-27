@@ -1,13 +1,16 @@
 L1 chart's type
 L2-3 bpm
-L4-5 notespeed
-L5+ 
+L4+ 
     time lines:
     1/1 -> next note come in seconds (seconds get from bpm)
     1/2 -> next note come in seconds (seconds/2)
     2/1 -> next note come in seconds (seconds*2)
     ..
 
+    1/1 500 -> notespeed = 500(ms)
+    1/2 400 -> notespeed = 400(ms)
+    ..
+    
     starts:
     0000 -> start sign
     
