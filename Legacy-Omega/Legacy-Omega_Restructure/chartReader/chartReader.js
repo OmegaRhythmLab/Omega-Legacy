@@ -24,12 +24,13 @@ function main(chart){
             bpm: 0,
             bpm_ms: 0,
             notespeed: [],
+            composer: "",
             artist: "",
             chart: "",
             name: "",
             level: "",
-            combos: "",
-            score_per_one: "",
+            combos: 0,
+            score_per_one: 0,
             notes: [],
             time_all: 0,
         }
@@ -42,21 +43,31 @@ function main(chart){
                 case "bpm":
                     chartInfo["bpm"] = parseInt(chart[i+1])
                     chartInfo["bpm_ms"] = parseInt(60/parseInt(chart[i+1])*1000)
+                
+                // artist composer chart level name
+                case "artist" || "composer" || "chart" || "level" || "name":
+                    if (chart.indexOf(item+"\r") != -1){
+                        chartInfo[item] = chart[i+1]
+                    }
+
                 // notespeed, time_all, notes...
                 default:
-                    // n/n类型的数据
+                    // n/n m 类型的数据
                     if (item.indexOf("/") == 1){
                         item = item.split(" ")
                         // time_all 所有时间(ms)
-                        chartInfo["time_all"] += parseInt(item[0][0])/parseInt(item[0][2])*parseInt(chartInfo["bpm_ms"])
+                        chartInfo["time_all"] += parseInt(parseInt(item[0][0])/parseInt(item[0][2])*parseInt(chartInfo["bpm_ms"]))
                         // 长度为2的数据后都带有notespeed属性(ms)
                         if (item.length == 2){
                             // notespeed
                             chartInfo["notespeed"].push([chartInfo["time_all"],parseInt(item[1])])
                         }
+                        // nnnn 或 nnnnmmmm 类型的数据
+                        // notes
+                        chartInfo["notes"].push([chartInfo["time_all"],parseInt(chart[i+1].replace("\r",""))])
                     }
             }
-        document.getElementById("chart").innerHTML = JSON.stringify(chartInfo)
+        document.getElementById("chart").innerHTML = JSON.stringify(chartInfo) // test ify(?(有端联想
         }
     }
 }
