@@ -24,11 +24,11 @@ function main(chart){
             bpm: 0,
             bpm_ms: 0,
             notespeed: [],
-            composer: "",
-            artist: "",
-            chart: "",
-            name: "",
-            level: "",
+            composer: "<nameless>",
+            artist: "<nameless>",
+            chart: "<nameless>",
+            name: "<nameless>",
+            level: "<nameless>",
             combos: 0,
             score_per_one: 0,
             notes: [],
@@ -36,20 +36,40 @@ function main(chart){
         }
         // 遍历chart获取信息
         for(var i=0; i<=chart.length-1; i++){
-            var item = chart[i].replace("\r","")
+            var item = chart[i].replace(/\r/g,"")
             // bpm ... 唯一标识符
             switch (item){
                 // bpm, bpm_ms
                 case "bpm":
                     chartInfo["bpm"] = parseInt(chart[i+1])
                     chartInfo["bpm_ms"] = parseInt(60/parseInt(chart[i+1])*1000)
+                    break;
                 
-                // artist composer chart level name
-                case "artist" || "composer" || "chart" || "level" || "name":
-                    if (chart.indexOf(item+"\r") != -1){
-                        chartInfo[item] = chart[i+1]
-                    }
+                // artist
+                case "artist":
+                    chartInfo["artist"] = chart[i+1].replace(/\r/g,"")
+                    break;
 
+                // composer
+                case "composer":
+                    chartInfo["composer"] = chart[i+1].replace(/\r/g,"")
+                    break;
+                
+                // chart
+                case "chart":
+                    chartInfo["chart"] = chart[i+1].replace(/\r/g,"")
+                    break;
+                
+                // level
+                case "level":
+                    chartInfo["level"] = chart[i+1].replace(/\r/g,"")
+                    break;
+                
+                // name
+                case "name":
+                    chartInfo["name"] = chart[i+1].replace(/\r/g,"")
+                    break;
+                
                 // notespeed, time_all, notes...
                 default:
                     // n/n m 类型的数据
@@ -64,7 +84,11 @@ function main(chart){
                         }
                         // nnnn 或 nnnnmmmm 类型的数据
                         // notes
-                        chartInfo["notes"].push([chartInfo["time_all"],parseInt(chart[i+1].replace("\r",""))])
+                        var temp_noteAry = []
+                        for (var j=0; j<chart[i+1].replace(/\r/g,"").length; j++){
+                            temp_noteAry.push(parseInt(chart[i+1][j]))
+                        }
+                        chartInfo["notes"].push([chartInfo["time_all"],temp_noteAry])
                     }
             }
         document.getElementById("chart").innerHTML = JSON.stringify(chartInfo) // test ify(?(有端联想

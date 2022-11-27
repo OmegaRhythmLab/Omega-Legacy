@@ -1,6 +1,8 @@
 !ChartType OMEGA
 bpm
 209
+chart
+MFn233
 1/1 500
 0000
 1/1
