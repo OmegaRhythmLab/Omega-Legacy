@@ -1029,7 +1029,7 @@ function imports() {
 
         //获取准确率
         function drawRealAccuracy() {
-            realAccuracy = 0
+            var realAccuracy = 0
             if (accuracy.length == 0) {
                 realAccuracy = false
             } else if (accuracy.length > 0) {
