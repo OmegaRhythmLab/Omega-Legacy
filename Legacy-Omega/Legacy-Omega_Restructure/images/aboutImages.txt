@@ -1,0 +1,5 @@
+# line.jpg
+    height 683px  width 103px
+    Left-side |<- 5px ->| RailCenter-Left-side |<- 92px ->| RailCenter-Right-side |<- 5px ->| Right-side
+    553px(height) |<- 9px ->| 561px(height)
+                  (test-Line)

@@ -1,4 +1,4 @@
-// 打开谱面
+// 读取谱面
 var openFile = function(event){
     var chart = ""
     var input = event.target;
@@ -7,14 +7,14 @@ var openFile = function(event){
         if (reader.result){
             // 结果储存到谱面
             chart = reader.result
-            main(chart)
+            chartReader(chart)
         }
     };
     reader.readAsText(input.files[0]);
 }
 
-// 主函数
-function main(chart){
+// 分析谱面
+function chartReader(chart){
     // chart转为列表
     chart = chart.split("\n")
     // OMEGA标识符
@@ -91,7 +91,12 @@ function main(chart){
                         chartInfo["notes"].push([chartInfo["time_all"],temp_noteAry])
                     }
             }
-        document.getElementById("chart").innerHTML = JSON.stringify(chartInfo) // test ify(?(有端联想
+        Gaming(chartInfo)
         }
     }
+}
+
+// 主函数
+function Gaming(charts){
+    
 }

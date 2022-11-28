@@ -1,0 +1,12 @@
+div#control{
+    display: inline-block;
+    left: 445px;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+#canvas{
+    display: inline-block;
+    top: 0px;
+}
