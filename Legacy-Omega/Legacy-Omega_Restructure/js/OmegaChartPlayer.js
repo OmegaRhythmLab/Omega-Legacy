@@ -87,7 +87,6 @@ function chartReader(chart){
                         
                         // 长度为2的数据后都带有notespeed属性(ms)
                         if (item.length == 2){
-                            
                             // notespeed
                             chartInfo["notespeed"].push([chartInfo["time_all"],parseInt(item[1])])
                         }
@@ -134,17 +133,89 @@ function main(charts){
         return Img
     }
     
-    // 帧数
-    var fps = 1000
+    // 音符直接生成函数
+    function noteSummon(chart){
+        // 获取音符,速度
+        var notes = chart["notes"]
+        var times = chart["notespeed"]
+        // 重置时间,初始速度,y值
+        var timeStamp = 0
+        var speed = 5
+        var y = 0
+        // 需要返回的数据
+        var result = []
+        // notes = [[xxx,[n,n,n,m]],..] or [[xxx,[n,n,n,m,x,x,x,y]],..]
+        for (var i = 0; i <= notes.length-1; i++){
+            // 单个音符的时间和音符类型
+            var singleNote = notes[i]
+            var time = singleNote[0]
+            var note = singleNote[1]
+            // 重设速度downspeed
+            for (var j = 0; j <= times.length-1; j++){
+                var notespeedTime = times[j]
+                if (time == notespeedTime[0]){
+                    speed = 500/(notespeedTime[1]/(1000/fps))
+                    break;
+                }
+            }
+            // 重设y值
+            y = parseInt(time/speed)*speed
+            // tap & hold两种的note
+            for (var lineNum = 0; lineNum <= note.length-1; lineNum++){
+                var note_type = note[lineNum]
+                if (lineNum <= 4){
+                    switch (note_type){
+                        // tap
+                        case 1:
+                            var tap_data = {
+                                "type": 1,
+                                "x": lineNum*103+5,
+                                "y": y+10,
+                                "speed": speed,
+                                "img": tap
+                            }
+                            result.push(tap_data)
+                        // hold_head
+                        case 2:
+                            var hold_top = {
+                                
+                            }
+                        // hold_bottom
+                        case 4:
+                            var hold_bottom = {
+                                
+                            }
+                    }
+                }
+                else if (lineNum > 4){
+                    
+                }
+            }
+        }
+        return result
+    }
+    
+    // 图片对象
+    var line = newImage("../images/line.jpg")
+    var tap = newImage("../images/tap.jpg")
 
+    // 帧数
+    var fps = 200
+
+    // 音符列表
+    var noteAry = noteSummon(charts)
+    console.log(noteAry)
 
     // 游戏主体
     function gameHandler(){
         // 判断状态
         switch(game_statue){
+            // 开始状态
             case GAME_START:
                 ctx.drawImage(line,0,0)
                 break;
+            
+            // 停止状态
             case GAME_STOP:
                 ctx.clearRect(0,0,405,683)
                 clearInterval(gaming)
@@ -154,10 +225,6 @@ function main(charts){
     // 游戏对象
     var gaming = setInterval(gameHandler, 1000 / fps)
 
-
-    // 图片对象
-    var line = newImage("../images/line.jpg")
-    
 
     // 画笔对象
     var ctx = document.getElementById("canvas").getContext("2d")

@@ -1,7 +1,7 @@
 div#control{
     display: inline-block;
-    left: 445px;
     position: fixed;
+    left: 445px;
     right: 0;
     top: 0;
 }
