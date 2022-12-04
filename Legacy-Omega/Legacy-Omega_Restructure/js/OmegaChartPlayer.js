@@ -133,78 +133,132 @@ function main(charts){
         return Img
     }
     
-    // 音符直接生成函数
-    function noteSummon(chart){
+    // 音符生成函数
+    function notes_init_set(chart){
         // 获取音符,速度
         var notes = chart["notes"]
         var times = chart["notespeed"]
-        // 重置时间,初始速度,y值
-        var timeStamp = 0
+        // 初始速度
         var speed = 5
-        var y = 0
         // 需要返回的数据
         var result = []
-        // notes = [[xxx,[n,n,n,m]],..] or [[xxx,[n,n,n,m,x,x,x,y]],..]
+        // notes = [[xxxx,[m,m,m,m,n,n,n,n]],..]   times = [[xxxx,m],..]
         for (var i = 0; i <= notes.length-1; i++){
-            // 单个音符的时间和音符类型
-            var singleNote = notes[i]
-            var time = singleNote[0]
-            var note = singleNote[1]
-            // 重设速度downspeed
+            // 单个音符的时间、类型
+            var singleNote = notes[i] // [xxx,[n,n,n,n,m,m,m,m]]
+            var time = singleNote[0] // xxx
+            var note = singleNote[1] // [n,n,n,n]
+            // 音符速度
             for (var j = 0; j <= times.length-1; j++){
-                var notespeedTime = times[j]
-                if (time == notespeedTime[0]){
-                    speed = 500/(notespeedTime[1]/(1000/fps))
-                    break;
+                // 寻找与时间相同的速度
+                var noteSpeed = times[j]
+                if (time == noteSpeed[0]){
+                    speed = 500/(noteSpeed[1]/(1/fps*1000)) //不要问我这个公式怎么出来的,自己算一遍就知道了
                 }
             }
-            // 重设y值
-            y = parseInt(time/speed)*speed
-            // tap & hold两种的note
+            // 处理音符
             for (var lineNum = 0; lineNum <= note.length-1; lineNum++){
-                var note_type = note[lineNum]
+                var noteType = note[lineNum]
                 if (lineNum <= 4){
-                    switch (note_type){
+                    switch (noteType){
                         // tap
                         case 1:
                             var tap_data = {
                                 "type": 1,
                                 "x": lineNum*103+5,
-                                "y": y+10,
+                                "y": -10,
                                 "speed": speed,
-                                "img": tap
+                                "img": tapImg,
+                                "time": time,
                             }
                             result.push(tap_data)
                         // hold_head
                         case 2:
                             var hold_top = {
-                                
+
                             }
                         // hold_bottom
                         case 4:
                             var hold_bottom = {
-                                
+
                             }
                     }
                 }
+                // motion
                 else if (lineNum > 4){
-                    
+
                 }
             }
         }
         return result
     }
     
+    // 音符推送
+    function pushNotes(tick,all_noteAry,noteAry){
+        for (var i = 0; i <= all_noteAry.length-1; i++){
+            // 对于时间超过音符需要出现的时间的音符进行推送
+            if (tick >= all_noteAry[i].time){
+                noteAry.push(all_noteAry[i])
+                all_noteAry.splice(i,0)
+                break
+            }
+        }
+        console.log(all_noteAry)
+        return noteAry, all_noteAry
+    }
+
+    // 移动音符
+    function moveNotes(noteAry){
+        for (var i = noteAry.length-1; i >= 0; i--){
+            if (noteAry[i] >= 700){
+                noteAry.splice(i,0)
+            }
+            switch (noteAry[i].type){
+                case 5:
+
+                default:
+                    noteAry[i].y += noteAry[i].speed
+            }
+        }
+        return noteAry
+    }
+
+    // 绘画元素
+    function drawImages(notes){
+        // 清空画布
+        ctx.clearRect(0,0,405,683)
+        // 绘画轨道
+        for (var i = 0; i <= 3; i++){
+            ctx.drawImage(lineImg,i*103,0)
+        }
+        // 绘画音符
+        for (var j = 0; j <= notes.length-1; j++){
+            var note = notes[j]
+            ctx.drawImage(note.img,note.x,note.y)
+        }
+    }
+
     // 图片对象
-    var line = newImage("../images/line.jpg")
-    var tap = newImage("../images/tap.jpg")
+    var lineImg = newImage("../images/line.jpg")
+    var tapImg = newImage("../images/tap.jpg")
 
     // 帧数
-    var fps = 200
+    var fps = 125
+
+    // 总帧数
+    var frames = 0
+
+    // 所有音符列表
+    var all_noteAry = notes_init_set(charts)
+    
+    // 音符列表
+    var noteAry = []
 
     // 音符列表
-    var noteAry = noteSummon(charts)
-    console.log(noteAry)
+    noteAry, all_noteAry = pushNotes(frames,all_noteAry,[])
+
+    // 导入ctx画笔对象
+    var ctx = document.getElementById("canvas").getContext("2d")
 
     // 游戏主体
     function gameHandler(){
@@ -212,7 +266,13 @@ function main(charts){
         switch(game_statue){
             // 开始状态
             case GAME_START:
-                ctx.drawImage(line,0,0)
+                // 总帧数
+                frames += 1000/fps
+                // 获取音符
+                noteAry, all_noteAry = pushNotes(frames,all_noteAry,noteAry)
+                // 移动音符
+                noteAry = moveNotes(noteAry)
+                drawImages(noteAry)
                 break;
             
             // 停止状态
@@ -224,10 +284,5 @@ function main(charts){
 
     // 游戏对象
     var gaming = setInterval(gameHandler, 1000 / fps)
-
-
-    // 画笔对象
-    var ctx = document.getElementById("canvas").getContext("2d")
-
 
 }

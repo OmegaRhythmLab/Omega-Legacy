@@ -16,6 +16,6 @@ MFn233负责ui， BallThe负责重构他之前写的稀烂的代码。
 
 MFn233 is responsible for ui, and BallThe is responsible for refactoring the rotten code he wrote before.
 
-如果你想看之前**MFn233**写的README，自行查看Legacy-Omega文件夹里的README。
+如果你想看之前**MFn233**写的README，自行查看Legacy-Omega_Legacy文件夹里的README。
 
-If you want to see the README written by **MFn233** before, check the README in the Legacy-Omega folder by yourself.
+If you want to see the README written by **MFn233** before, check the README in the Legacy-Omega_Legacy folder by yourself.
