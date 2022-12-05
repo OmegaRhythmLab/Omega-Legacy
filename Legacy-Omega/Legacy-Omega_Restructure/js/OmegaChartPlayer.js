@@ -33,6 +33,8 @@ function chartReader(chart){
             chart: "<nameless>",
             name: "<nameless>",
             level: "<nameless>",
+            path: "<pathless>",
+            offset: 0,
             combos: 0,
             score_per_one: 0,
             notes: [],
@@ -74,6 +76,16 @@ function chartReader(chart){
                 // name
                 case "name":
                     chartInfo["name"] = chart[i+1].replace(/\r/g,"")
+                    break;
+
+                // path(musicPath)
+                case "musicPath":
+                    chartInfo["path"] = chart[i+1].replace(/\r/g,"")
+                    break;
+
+                // offset
+                case "offset":
+                    chartInfo["offset"] = parseInt(chart[i+1])
                     break;
                 
                 // notespeed, time_all, notes...
@@ -132,12 +144,19 @@ function main(charts){
         Img.src = path
         return Img
     }
+
+    // 新音乐
+    function newMusic(path){
+        var music = new Audio(path)
+        return music
+    }
     
     // 音符生成函数
     function notes_init_set(chart){
         // 获取音符,速度
         var notes = chart["notes"]
         var times = chart["notespeed"]
+        var offset = chart["offset"]
         // 初始速度
         var speed = 5
         // 需要返回的数据
@@ -169,7 +188,7 @@ function main(charts){
                                 "y": -10,
                                 "speed": speed,
                                 "img": tapImg,
-                                "time": time,
+                                "time": time+offset,
                                 "showed": false,
                             }
                             result.push(tap_data)
@@ -195,25 +214,27 @@ function main(charts){
     }
     
     // 音符推送
-    function pushNotes(tick,all_noteAry){
-        var result = false
+    function pushNotes(tick,all_noteAry,noteAry){
+        // 遍历
         for (var i = all_noteAry.length-1; i >= 0; i--){
+            // showed用于音符是否已经送出
             if (tick >= all_noteAry[i].time && all_noteAry[i].showed == false){
-                result = all_noteAry[i]
                 all_noteAry[i].showed = true
-                break
+                noteAry.push(all_noteAry[i])
             }
         }
-        return result
+        return noteAry
     }
 
     // 移动音符
     function moveNotes(noteAry){
         for (var i = noteAry.length-1; i >= 0; i--){
+            // y大于700px的进行删除
             if (noteAry[i].y >= 700){
                 noteAry.splice(i,1)
                 continue
             }
+            // motion和其他音符的区别
             switch (noteAry[i].type){
                 case 5:
 
@@ -243,6 +264,13 @@ function main(charts){
     var lineImg = newImage("../images/line.jpg")
     var tapImg = newImage("../images/tap.jpg")
 
+    // 音乐对象
+    var music = newMusic(charts["path"])
+    console.log(charts)
+
+    // 加载音乐
+    music.load()
+
     // 帧数
     var fps = 125
 
@@ -264,16 +292,11 @@ function main(charts){
         switch(game_statue){
             // 开始状态
             case GAME_START:
+                music.play()
                 // 总帧数
                 frames += 1000/fps
                 // 获取音符
-                var new_note = pushNotes(frames,all_noteAry)
-                switch (new_note){
-                    case false:
-                        break
-                    default:
-                        noteAry.push(new_note)
-                }
+                noteAry = pushNotes(frames,all_noteAry,noteAry)
                 // 移动音符
                 noteAry = moveNotes(noteAry)
                 drawImages(noteAry)

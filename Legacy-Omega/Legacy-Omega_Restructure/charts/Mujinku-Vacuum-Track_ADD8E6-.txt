@@ -1,8 +1,12 @@
 !ChartType OMEGA
 bpm
 209
+offset
+60
 chart
 MFn233
+musicPath
+../musics/Mujinku-Vacuum-Track_ADD8E6-.mp3
 1/1 500
 0000
 1/1

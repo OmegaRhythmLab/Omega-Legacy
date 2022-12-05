@@ -1,0 +1,3 @@
+music name is as same as the chart name
+
+../charts/....txt
