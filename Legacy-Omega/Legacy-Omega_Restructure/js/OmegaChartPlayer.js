@@ -170,6 +170,7 @@ function main(charts){
                                 "speed": speed,
                                 "img": tapImg,
                                 "time": time,
+                                "showed": false,
                             }
                             result.push(tap_data)
                         // hold_head
@@ -194,24 +195,24 @@ function main(charts){
     }
     
     // 音符推送
-    function pushNotes(tick,all_noteAry,noteAry){
-        for (var i = 0; i <= all_noteAry.length-1; i++){
-            // 对于时间超过音符需要出现的时间的音符进行推送
-            if (tick >= all_noteAry[i].time){
-                noteAry.push(all_noteAry[i])
-                all_noteAry.splice(i,0)
+    function pushNotes(tick,all_noteAry){
+        var result = false
+        for (var i = all_noteAry.length-1; i >= 0; i--){
+            if (tick >= all_noteAry[i].time && all_noteAry[i].showed == false){
+                result = all_noteAry[i]
+                all_noteAry[i].showed = true
                 break
             }
         }
-        console.log(all_noteAry)
-        return noteAry, all_noteAry
+        return result
     }
 
     // 移动音符
     function moveNotes(noteAry){
         for (var i = noteAry.length-1; i >= 0; i--){
-            if (noteAry[i] >= 700){
-                noteAry.splice(i,0)
+            if (noteAry[i].y >= 700){
+                noteAry.splice(i,1)
+                continue
             }
             switch (noteAry[i].type){
                 case 5:
@@ -254,9 +255,6 @@ function main(charts){
     // 音符列表
     var noteAry = []
 
-    // 音符列表
-    noteAry, all_noteAry = pushNotes(frames,all_noteAry,[])
-
     // 导入ctx画笔对象
     var ctx = document.getElementById("canvas").getContext("2d")
 
@@ -269,7 +267,13 @@ function main(charts){
                 // 总帧数
                 frames += 1000/fps
                 // 获取音符
-                noteAry, all_noteAry = pushNotes(frames,all_noteAry,noteAry)
+                var new_note = pushNotes(frames,all_noteAry)
+                switch (new_note){
+                    case false:
+                        break
+                    default:
+                        noteAry.push(new_note)
+                }
                 // 移动音符
                 noteAry = moveNotes(noteAry)
                 drawImages(noteAry)
